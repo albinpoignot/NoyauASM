@@ -27,11 +27,11 @@ ListeVide PROC NEAR
 
 	Si1_: 	CMP [SI].precFPrio, SI	; Si [SI].precFPrio = SI Alors ZF = 1, la liste est considérée
 			JNE Sinon1_				; comme vide, on vérifie si c'est vrai pour [SI].precFDP	
-			JMP fsi_
+			JMP Fsi_
 
 	Sinon1_ :	CMP [SI].precFDP, SI
 
-	fsi_:
+	Fsi_:
 	
 ListeVide ENDP
 
@@ -40,7 +40,9 @@ ListeVide ENDP
 ; DS:SI pointe sur la cellule qui suivra celle à insérer
 ; ******************************************************
 Recherche PROC NEAR
-	
+
+	; /!\ ***********************
+	; Par prudence !
 	PUSHF
 	CLI
 	
@@ -50,10 +52,17 @@ Recherche PROC NEAR
 	; On cherche à insérer dans la QE
 	Alors_: MOV SI, [SI].suivFPrio
 			
+			CALL ListeVide
+			JE Fsi_
+			
 			Tq_ : 	CMP [SI].Priorite, [BX].Priorite
 					JNAE Ftq_
 					
 					MOV SI, [SI].suivFPrio
+					
+					CMP [SI].Identite, IdCGQueueExp
+					JNE Fsi_
+					
 					JMP Tq_
 			Ftq_:
 			
@@ -62,8 +71,7 @@ Recherche PROC NEAR
 	Sinon_:	CMP [SI].Identite, IdCGFileDesProc ; Sinon on vérifie qu'on pointe sur les descripteurs
 			JNE Fsi_
 			
-			MOV SI, [SI].precFDP ; On se place juste sur la dernière cellule (celle qui est avant
-								 ; la cellule de garde selon la fig. 4
+			; On ne fait rien, on pointe déjà sur la cellule de garde
 	
 	Fsi_:
 	
@@ -78,8 +86,6 @@ Recherche ENDP
 ; ******************************************************
 InsereItemFPrio PROC NEAR
 
-	PUSHA
-
 	MOV DI, [SI].precFPrio
 	
 	MOV [DI].suivFPrio, BX
@@ -87,8 +93,6 @@ InsereItemFPrio PROC NEAR
 	
 	MOV [BX].precFPrio, DI
 	MOV [BX].suivFPrio, SI
-	
-	POPA
 
 InsereItemFPrio ENDP
 
@@ -98,18 +102,46 @@ InsereItemFPrio ENDP
 ; DS:SI pointe sur la cellule qui suivra celle à insérer
 ; ******************************************************
 InsereItemFDP PROC NEAR
-
-	PUSHA
 	
-	MOV DI, [SI].precFPrio
+	MOV DI, [SI].precFDP
 	
-	MOV [DI].suivFPrio, BX
-	MOV [SI].precFPrio, BX
+	MOV [DI].suivFDP, BX
+	MOV [SI].precFDP, BX
 	
-	MOV [BX].precFPrio, DI
-	MOV [BX].suivFPrio, SI
-	
-	POPA
+	MOV [BX].precFDP, DI
+	MOV [BX].suivFDP, SI
 	
 InsereItemFDP ENDP
+
+
+; ************************************************
+; Réalise l'insertion d'une cellule
+; DS:SI pointe sur la cellule de garde de la liste
+; ************************************************
+Insere PROC NEAR
+
+	PUSHA
+	PUSHF
+	CLI
 	
+	Si_:	CMP [SI].Identite, IdCGQueueExp	; On vérifie si on pointe sur la queue d'exploitation
+			JNE Sinon_
+
+	; On cherche à insérer dans la QE
+	Alors_: 
+			CALL Recherche
+			CALL InsereItemFPrio
+			JMP Fsi_
+			
+	Sinon_:	CMP [SI].Identite, IdCGFileDesProc ; Sinon on vérifie qu'on pointe sur les descripteurs
+			JNE Fsi_
+			
+			CALL Recherche
+			CALL InsereItempFDP
+			
+	Fsi_:
+	
+	POPF
+	POPA
+	
+Insere ENDP
