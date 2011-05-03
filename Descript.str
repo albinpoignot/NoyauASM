@@ -1,0 +1,13 @@
+Descripteur STRUC
+
+	PrecFPrio	DW ?  ; DW car PrecFPrio est un offset donc représenté sur un mot
+	SuivFPrio	DW ?
+	PrecFDP		DW ?
+	SuivFDP		DW ?
+	Identite	DB ?
+	TypeObjet	DB ?
+	Priorite	DB ?
+	
+Descripteur ENDS
+
+Liste EQU <Descripteur>
