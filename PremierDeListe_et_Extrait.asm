@@ -45,6 +45,7 @@ PremierDeListe PROC NEAR
     popa
     popf
 
+PremierDeListe ENDP
 
 ;************************************************************
 ;* Procedure Extrait de type NEAR                           *
@@ -113,7 +114,7 @@ Extrait PROC NEAR
     popa
     popf
 
-
+Extrait ENDP
 
 
 
