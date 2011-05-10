@@ -12,17 +12,16 @@ Extrait PROC NEAR
 	Si_:	CMP [SI].Identite, IdCGQueueExp	; On vérifie si on pointe sur la queue d'exploitation
 			JNE Sinon_
 
-	; On cherche à insérer dans la QE
+	; On cherche à extraire de la QE
 	Alors_: 		
 			CALL ListeVide
 			JE Fsi_
 			
 			MOV DI, [BX].precFPrio ; Stockage de la cellule précédente
-			MOV [DI].suivFPrio, [BX].suivFPrio
+			MOV [DI].suivFPrio, [BX].suivFPrio ; MaJ du chainage
 			
 			MOV DI, [BX].suivFPrio ; Stockage de la cellule suivante
-			MOV [DI].precFPrio, [BX].precFPrio
-			
+			MOV [DI].precFPrio, [BX].precFPrio ; MaJ du chainage
 			
 			JMP Fsi_
 			
@@ -33,10 +32,10 @@ Extrait PROC NEAR
 			JE Fsi_
 			
 			MOV DI, [BX].precFDP ; Stockage de la cellule précédente
-			MOV [DI].suivFDP, [BX].suivFDP
+			MOV [DI].suivFDP, [BX].suivFDP ; MaJ du chainage
 			
 			MOV DI, [BX].suivFDP ; Stockage de la cellule suivante
-			MOV [DI].precFDP, [BX].precFDP
+			MOV [DI].precFDP, [BX].precFDP ; MaJ du chainage
 	
 	Fsi_:
 	

@@ -115,9 +115,3 @@ Extrait PROC NEAR
     popf
 
 Extrait ENDP
-
-
-
-
-
-
