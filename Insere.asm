@@ -34,6 +34,7 @@ InsereItemFDP ENDP
 
 ; ************************************************
 ; Réalise l'insertion d'une cellule
+; DS:BX pointe sur la cellule à insérer
 ; DS:SI pointe sur la cellule de garde de la liste
 ; ************************************************
 Insere PROC NEAR
