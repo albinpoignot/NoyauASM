@@ -1,0 +1,13 @@
+;************************************
+; Structure gérant un processus     *
+;************************************
+
+PROCESS STRUC
+
+  LISTE <NIL,NIL,NIL,NIL, ,TypeProcessus, >
+  etat DB CREATION
+  RegSS DW ?
+  RegSP DW ?
+  File DW ?
+
+PROCESS ENDS
