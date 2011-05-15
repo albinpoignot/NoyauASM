@@ -1,0 +1,14 @@
+;***************************************
+; Declaration des ext                  *
+;***************************************
+
+EXTRN InitVide       : NEAR
+EXTRN ListeVide      : NEAR
+EXTRN Insere         : NEAR
+EXTRN Recherche      : NEAR
+EXTRN Extrait        : NEAR
+EXTRN PremierDeListe : NEAR
+
+EXTRN QueueExp 		: WORD
+EXTRN FileDesProc 	: WORD
+EXTRN EnCours    	: WORD
