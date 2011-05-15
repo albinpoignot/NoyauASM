@@ -1,0 +1,5 @@
+;****************************************************
+; DECLARATION DES PROCEDURES DU MODULE GESTFILE     *
+;****************************************************
+
+PUBLIC InitVide, ListeVide, Insere, Recherche, InsereItemFPrio, InsereItemFDP, Extrait, PremierDeListe

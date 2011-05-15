@@ -31,7 +31,7 @@ Waitt PROC NEAR
   Fin:
 
     popf
-    CALL FAR Dispatcher   ; Appel au dispatcher
+    CALL Dispatcher FAR   ; Appel au dispatcher
 
   RET
 
