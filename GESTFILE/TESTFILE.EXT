@@ -1,0 +1,10 @@
+;-----------------------------------------------------------------
+; TD N­1 module GESTFILE.EXT du NOYAU           
+; Declaration des procedures de gestfile.asm "extrn"  
+;-----------------------------------------------------------------
+extrn InitVide       : near
+extrn FileVide      : near
+extrn Insere         : near
+extrn Recherche      : near
+extrn Extrait        : near
+extrn PremierDeFile : near

@@ -1,0 +1,85 @@
+;-----------------------------------------------------------------
+;  TD N­1 test du module GESTFILE.ASM du NOYAU           
+;-----------------------------------------------------------------
+.286
+
+INCLUDE DESCRIPT.STR
+INCLUDE CONST.INC
+INCLUDE TESTFILE.EXT
+
+Lesdon		SEGMENT WORD PUBLIC 'DATA'
+	attribut	db 01001111b
+	ecran		dw 0b800h
+	QE		LISTE <0,0,0,0,IdCGQueueExp,TypeFPrio,>
+	FDP		LISTE <0,0,0,0,IdCGFileDesProc,TypeFDP,>
+	C1		LISTE <0,0,0,0,Id1,TypeCellule,20>
+	C2		LISTE <0,0,0,0,Id2,TypeCellule,5>
+	C3		LISTE <0,0,0,0,Id3,TypeCellule,10>
+lesdon 		ENDS
+
+lapile 		SEGMENT stack 'stack'
+        	dw 20 dup (?)
+lapile 		ENDS
+
+Segnoyau	SEGMENT BYTE PUBLIC 'CODE'
+	assume cs:Segnoyau, ss:lapile, ds:lesdon
+
+debut:
+	mov	ax,lesdon
+	mov	ds,ax
+	mov	es,ecran
+	mov   	ah,attribut 
+	mov	di,(80*2)*8+10*2
+
+	LEA	si,QE
+	call	InitVide
+	call	ExtraitAffiche
+	lea	bx,C1
+	call	Insere
+	mov	di,(80*2)*9+10*2
+	call	ExtraitAffiche
+	lea	bx,C2
+	call	Insere
+	lea	bx,C3
+	call	Insere
+	mov	di,(80*2)*10+10*2
+	call	ExtraitAffiche
+
+	mov	di,(80*2)*12+10*2
+	LEA	si,FDP
+	call	InitVide
+	call	ExtraitAffiche
+	lea	bx,C1
+	call	Insere
+	lea	bx,C2
+	call	Insere
+	lea	bx,C3
+	call	Insere
+	call	ExtraitAffiche
+
+	mov	ax,4c00h		; fin du programme
+	int	21h
+
+
+ExtraitAffiche PROC NEAR
+		pushf
+Print:		call	FileVide
+		jz	Vide
+		call	PremierDeFile
+		mov	al,[bx].identite
+		stosw
+		mov	al,' '
+		stosw
+		jmp	Print
+Vide:		mov	al,'V'
+		stosw
+		mov	al,'i'
+		stosw
+		mov	al,'d'
+		stosw
+Fin:		popf
+		ret
+ExtraitAffiche ENDP
+
+Segnoyau	ends
+		end debut

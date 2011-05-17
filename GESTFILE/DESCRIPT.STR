@@ -1,13 +1,15 @@
-Descripteur STRUC
+;-----------------------------------------------------------------
+; TD N­1 module DESCRIPT.STR du NOYAU           
+; Declaration du type DESCRIPTEUR           
+;-----------------------------------------------------------------
+DESCRIPTEUR		STRUC
+	precFPrio	dw      ? ; .. sur cellule suivante (Files Prioritaires)
+	suivFPrio	dw      ? ; .. sur cellule suivante (Files Prioritaires)
+	precFDP		dw      ? ; .. sur cellule suivante (File des procs)
+	suivFDP		dw      ? ; .. sur cellule suivante (File des procs)
+	identite	db      ? ; identite de l'objet
+	typeObjet	db      ? ; type d'objet represente par la cellule (filePrio, FDP, sem, proc, cellule)
+	priorite	db      ? ; priorite dans la liste
+DESCRIPTEUR	ENDS
 
-	PrecFPrio	DW ?  ; DW car PrecFPrio est un offset donc représenté sur un mot
-	SuivFPrio	DW ?
-	PrecFDP		DW ?
-	SuivFDP		DW ?
-	Identite	DB ?
-	TypeObjet	DB ?
-	Priorite	DB ?
-	
-Descripteur ENDS
-
-Liste EQU <Descripteur>
+LISTE           equ     < DESCRIPTEUR >

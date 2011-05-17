@@ -1,5 +1,6 @@
-;****************************************************
-; DECLARATION DES PROCEDURES DU MODULE GESTFILE     *
-;****************************************************
-
-PUBLIC InitVide, ListeVide, Insere, Recherche, InsereItemFPrio, InsereItemFDP, Extrait, PremierDeListe
+;-----------------------------------------------------------------
+; TD N­1 module GESTFILE.PUB du NOYAU           
+; Declaration "PUBLIC" des procedures de gestfile.asm
+;-----------------------------------------------------------------
+public InitVide,FileVide,Insere,Recherche
+public Extrait,PremierDeFile
