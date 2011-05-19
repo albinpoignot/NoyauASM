@@ -1,19 +1,23 @@
-;**************************************************
-; GESTFILE.ASM                                    *
-;************************************************** 
+;-----------------------------------------------------------------
+;  TD N­1 : module GESTFILE.ASM du NOYAU           
+;  Procedures de gestion de files (listes chainees)    
+;-----------------------------------------------------------------
 
 .286
 
-INCLUDE DESCRIPT.STR    
+INCLUDE DESCRIPT.STR    ; declaration du STRUC DESCRIPTEUR
 INCLUDE CONST.INC
 INCLUDE GESTFILE.PUB
 
 SegNoyau SEGMENT BYTE PUBLIC 'CODE'
 	ASSUME	CS:SegNoyau
 
-; *********************************************
-; Initialise une liste vide
-; *********************************************
+;-----------------------------------------------------------------
+;  Procedure InitVide                            
+;  Type     : NEAR                               
+;  Entree   : (DS:SI) = cellule de garde de la file  
+;  Resultat : AUCUN                              
+;-----------------------------------------------------------------
 InitVide PROC NEAR
 
 	PUSHF
@@ -32,10 +36,13 @@ InitVide PROC NEAR
 
 InitVide ENDP
 
-; *********************************************
-; ZF = 1 si la liste pointée par DS:SI est vide
-; ZF = 0 sinon
-; *********************************************
+;-----------------------------------------------------------------
+;  Procedure FileVide                            
+;  Type     : NEAR                               
+;  Entree   : (DS:SI) = cellule de garde de la file                                 
+;  Resultat : ZF=0 si la file n'est pas vide, 1 si elle l'est 
+;  Remarque : Attention ^ la gestion du registre dåetat
+;-----------------------------------------------------------------
 FileVide PROC NEAR
 
     CMP [SI].identite, idCGQueueExp
@@ -54,10 +61,15 @@ FileVide PROC NEAR
 
 FileVide ENDP
 
-; ******************************************************
-; Réalise l'insertion d'une cellule dans la QE
-; DS:SI pointe sur la cellule qui suivra celle à insérer
-; ******************************************************
+;-----------------------------------------------------------------
+;  Procedure InsereItemXXX                       
+;  Type     : NEAR                               
+;  Entree   : (DS:BX) = cellule a inserer        
+;             (DS:SI) = position d'insertion     
+;  Resultat : AUCUN                              
+;  Remarque : la cellule est inseree avant celle pointee pas (DS:SI)
+;		se dZcompose en InsereItemFPrio et InsereItemFDP   
+;-----------------------------------------------------------------	
 InsereItemFPrio PROC NEAR
 
    PUSH DI
@@ -74,10 +86,6 @@ InsereItemFPrio PROC NEAR
 
 InsereItemFPrio ENDP
 
-; ******************************************************
-; Réalise l'insertion d'une cellule dans la FDP
-; DS:SI pointe sur la cellule qui suivra celle à insérer
-; ******************************************************
 InsereItemFDP PROC NEAR
 
     PUSH DI
@@ -93,11 +101,13 @@ InsereItemFDP PROC NEAR
 
 InsereItemFDP ENDP
 
-; ************************************************
-; Réalise l'insertion d'une cellule
-; DS:BX pointe sur la cellule à insérer
-; DS:SI pointe sur la cellule de garde de la liste
-; ************************************************
+;-----------------------------------------------------------------
+;  Procedure Insere                              
+;  Type     : NEAR                               
+;  Entree   : (DS:BX) = cellule a inserer        
+;             (DS:SI) = cellule de garde de la file  
+;  Resultat : AUCUN                              
+;-----------------------------------------------------------------
 Insere PROC NEAR
 
 	PUSHA
@@ -128,10 +138,15 @@ Insere PROC NEAR
 
 Insere ENDP
 
-; ******************************************************
-; Détermine la position d'insertion d'un élément
-; DS:SI pointe sur la cellule qui suivra celle à insérer
-; ******************************************************
+;-----------------------------------------------------------------
+;  Procedure Recherche                           
+;  Type     : NEAR                               
+;  Entree   : (DS:BX) = cellule a inserer        
+;             (DS:SI) = cellule de garde de la file  
+;  Resultat : (DS:SI) = position d'insertion     
+;  Remarque : l'insertion se fait dans l'ordre croissant des priorites
+;		  pour la Queue d'Exp, par ordre d'ajout pour la File 
+;-----------------------------------------------------------------
 Recherche PROC NEAR
 
 	; /!\ ***********************
@@ -177,11 +192,12 @@ Recherche PROC NEAR
 
 Recherche ENDP
 
-; **************************************
-; Réalise l'extraction d'une cellule
-; DS:SI pointe sur la cellule de garde
-; DS:BX pointe sur la cellule à extraire
-; **************************************
+;-----------------------------------------------------------------
+;  Procedure Extrait                             
+;  Type     : NEAR                               
+;  Entree   : (DS:BX) = cellule a extraire       
+;  Resultat : (DS:BX) = cellule extraite
+;-----------------------------------------------------------------
 Extrait PROC NEAR
 
 	PUSHA
@@ -229,13 +245,13 @@ Extrait PROC NEAR
 
 Extrait ENDP
 
-;**************************************************************
-;* Procedure PremierDeFile de type NEAR 		     *
-;* Entrée DS:SI pointe sur la cellule de garde de la liste    *
-;* Resultat BX = 0FFFFh si la liste est vide                  *
-;*          BX != 0FFFFh DS:BX pointe sur la cellule extraite *                                          
-;**************************************************************
-
+;-----------------------------------------------------------------
+;  Procedure PremierDeFile                       
+;  Type     : NEAR                               
+;  Entree   : (DS:SI) = cellule de garde de la file  
+;  Resultat : BX = 0FFFFh, file vide
+;	      BX != 0FFFFh, (DS :BX) pointe sur la cellule extraite
+;-----------------------------------------------------------------
 PremierDeFile PROC NEAR
 
   PUSH DI
@@ -282,7 +298,6 @@ PremierDeFile PROC NEAR
     RET
 
 PremierDeFile ENDP
-
 
 SegNoyau ENDS    ;Fin du segment
 
