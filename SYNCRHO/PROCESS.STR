@@ -1,0 +1,11 @@
+;-----------------------------------------------------------------
+; TD N­2 module PROCESS.STR du NOYAU           
+; Declarations du type PROCESSUS
+;-----------------------------------------------------------------
+PROCESSUS	STRUC
+	LISTE	<Nil,Nil,Nil,Nil,,TypeProcessus,>	;descripteur initialise
+	etat    dw      CREATION	; etat du processus
+ 	regSP	dw      Nil		; sommet de sa pile privee
+ 	regSS	dw      Nil		; numero de segment de sa pile privee
+ 	file	dw      Nil		; pointe sur la file d'attente ou se trouve le proc.
+PROCESSUS    	ENDS

@@ -1,0 +1,10 @@
+;************************************
+; Structure gérant un sémaphore     *
+;************************************
+
+SEMAPHOR STRUC
+
+  LISTE <NIL,NIL,NIL,NIL, ,TypeProcessus, >
+  compteur DB 0                                ; Pas sur du 0
+
+SEMAPHOR ENDS

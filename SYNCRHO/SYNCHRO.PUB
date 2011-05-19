@@ -1,0 +1,5 @@
+;****************************************************
+; SYNCHRO.PUB declaration de toutes les procedures  *
+;****************************************************
+
+PUBLIC Dispatcher, Waitt, Signall, Suicide, Eligible
