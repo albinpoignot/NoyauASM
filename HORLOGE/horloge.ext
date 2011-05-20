@@ -1,0 +1,20 @@
+;-----------------------------------------------------------------
+; horloge.ext
+;-----------------------------------------------------------------
+extrn FinNoyau   : byte
+extrn semSchedule : SEMAPHORE
+extrn pHorloge:     PROCESSUS 
+extrn SemHorloge :  SEMAPHORE 
+extrn Ex_int1ch :   dword
+extrn int1ch :      dword  
+extrn cptr_Hrlg :   byte
+extrn FinHorloge :  byte  
+
+; appel des routines de la couche "INTERF"
+extrn   AttendSema      : far
+extrn   SignaleSema     : far
+extrn   InitSema        : far
+extrn   DetruitProc     : far
+
+; appel de la routine Signall pour le Timer
+extrn   Signall         : near
