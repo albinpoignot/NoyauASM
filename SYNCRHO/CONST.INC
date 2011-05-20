@@ -1,3 +1,4 @@
+;-----------------------------------------------------------------
 ; TD Nø2 module CONST.INC           
 ; Constantes utilisees dans le noyau   
 ;-----------------------------------------------------------------
@@ -44,3 +45,16 @@ Infini          EQU     11111111b
 attribut				EQU			01001111b
 ecran						EQU			0b800h
 
+;------------------------
+; TD n 4 : Module HOROGE 
+; Constantes
+;------------------------
+Encore EQU 1
+FIN	EQU not Encore
+NbRegs EQU 13
+PrioriteMax EQU ; à compléter
+Int_det EQU 08h
+Etat_INITIAL EQU 1111001000000010b
+DimPile EQU 256
+IdSemHorl EQU 00000001b
+IdProcHorl EQU 00001010b
